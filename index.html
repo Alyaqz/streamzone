@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ma Bibliothèque de Films</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StreamZone - Films & Séries</title>
   <style>
     * {
       box-sizing: border-box;
@@ -12,14 +12,14 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: url('https://wallpaperaccess.com/full/317501.jpg') no-repeat center center fixed;
+      background: url('https://images.unsplash.com/photo-1602810316636-cd871b59843b?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
       background-size: cover;
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(3px);
       color: #fff;
     }
 
     .overlay {
-      background-color: rgba(0, 0, 0, 0.6);
+      background-color: rgba(0, 0, 0, 0.7);
       padding: 20px;
       min-height: 100vh;
     }
@@ -32,7 +32,7 @@
     header h1 {
       margin: 0;
       font-size: 3rem;
-      color: #ffd700;
+      color: #ff4747;
     }
 
     .search-box {
@@ -57,7 +57,7 @@
     }
 
     .movie {
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: rgba(255, 255, 255, 0.08);
       border-radius: 10px;
       overflow: hidden;
       width: 200px;
@@ -87,11 +87,11 @@
 <body>
   <div class="overlay">
     <header>
-      <h1>🎬 Ma Bibliothèque de Films</h1>
+      <h1>🎬 StreamZone</h1>
     </header>
 
     <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Rechercher un film..." onkeyup="filterMovies()">
+      <input type="text" id="searchInput" placeholder="Rechercher un film ou une série..." onkeyup="filterMovies()">
     </div>
 
     <div class="movies" id="movieList">
@@ -110,7 +110,6 @@
         <h3>Le Voyage de Chihiro</h3>
         <p>2001 - Animation</p>
       </div>
-      <!-- Tu peux en ajouter d'autres ici -->
     </div>
   </div>
 
@@ -127,4 +126,3 @@
   </script>
 </body>
 </html>
-
