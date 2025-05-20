@@ -1,81 +1,56 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>StreamZone - Films & Séries</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StreamZone</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #3b8d99, #6b6b6b); /* Fond dégradé */
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
     }
 
     .container {
-      background-color: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.75);
       padding: 30px;
+      max-width: 1100px;
+      margin: 50px auto;
       border-radius: 15px;
-      width: 80%;
-      max-width: 1200px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 20px #000;
     }
 
-    header {
+    h1 {
       text-align: center;
-      margin-bottom: 30px;
-    }
-
-    header h1 {
-      font-size: 3rem;
-      color: #ff4747;
-      letter-spacing: 2px;
-    }
-
-    .search-box {
-      display: flex;
-      justify-content: center;
+      color: #ff4c4c;
+      font-size: 2.5rem;
       margin-bottom: 20px;
     }
 
-    .search-box input {
-      padding: 12px;
-      font-size: 1.1rem;
-      width: 50%;
-      border-radius: 30px;
+    #searchInput {
+      width: 100%;
+      padding: 15px;
+      border-radius: 10px;
       border: none;
-      margin-right: 10px;
-      outline: none;
-      transition: all 0.3s ease-in-out;
+      font-size: 1rem;
+      margin-bottom: 30px;
     }
 
-    .search-box input:focus {
-      background-color: #fff;
-      color: #333;
-    }
-
-    .movies {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    .movie-list {
+      display: flex;
+      flex-wrap: wrap;
       gap: 20px;
+      justify-content: center;
     }
 
     .movie {
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: #1c1c1c;
       border-radius: 10px;
       overflow: hidden;
-      transition: transform 0.3s ease-in-out;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      width: 200px;
+      transition: transform 0.3s;
     }
 
     .movie:hover {
@@ -85,123 +60,81 @@
     .movie img {
       width: 100%;
       height: auto;
-      transition: opacity 0.3s ease-in-out;
+      display: block;
     }
 
-    .movie:hover img {
-      opacity: 0.8;
+    .movie a {
+      color: white;
+      text-decoration: none;
+      display: block;
+      padding: 10px;
     }
 
     .movie h3 {
-      padding: 10px;
-      font-size: 1.2rem;
-      color: #ff4747;
+      margin: 0;
+      font-size: 1.1rem;
+      color: #ff4c4c;
     }
 
     .movie p {
-      padding: 0 10px 10px;
-      font-size: 1rem;
-      color: #fff;
-    }
-
-    .movie img {
-      transition: transform 0.3s ease;
+      margin: 5px 0 0;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
+
   <div class="container">
-    <header>
-      <h1>🎬 StreamZone</h1>
-    </header>
+    <h1>🎬 StreamZone</h1>
+    <input type="text" id="searchInput" placeholder="Rechercher un film..." onkeyup="filterMovies()">
 
-    <!-- Barre de recherche -->
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Rechercher un film ou une série..." onkeyup="filterMovies()">
-    </div>
-
-    <!-- Liste des films -->
-    <div class="movies" id="movieList">
+    <div class="movie-list" id="movieList">
       <div class="movie">
-        <img src="https://image.tmdb.org/t/p/w500/9O7gLzmreU0nGkIB6K3BsJbzvNv.jpg" alt="Fight Club">
-        <h3>Fight Club</h3>
-        <p>1999 - Drame</p>
+        <a href="https://www.youtube.com/watch?v=BdJKm16Co6M" target="_blank">
+          <img src="https://image.tmdb.org/t/p/w500/907jlGzreU8onGkI86K3bJbzvlv.jpg" alt="Fight Club">
+          <h3>Fight Club</h3>
+          <p>1999 - Drame</p>
+        </a>
       </div>
+
       <div class="movie">
-        <img src="https://image.tmdb.org/t/p/w500/5KCVkau1HEl7ZzfPsKAPM0sMiKc.jpg" alt="Interstellar">
-        <h3>Interstellar</h3>
-        <p>2014 - Science-fiction</p>
+        <a href="https://www.youtube.com/watch?v=zSWdZVtXT7E" target="_blank">
+          <img src="https://image.tmdb.org/t/p/w500/SKCkVwauHlE7ZzFpKsAMPWzHkc.jpg" alt="Interstellar">
+          <h3>Interstellar</h3>
+          <p>2014 - Science-fiction</p>
+        </a>
       </div>
-      <div class="movie">
-        <img src="https://image.tmdb.org/t/p/w500/q719jXXEzOoYaps6babgKnONONX.jpg" alt="Le Voyage de Chihiro">
-        <h3>Le Voyage de Chihiro</h3>
-        <p>2001 - Animation</p>
-      </div><div class="movie">
-  <img src="https://image.tmdb.org/t/p/w500/nNmJRkg8wWnRmzQDe2FwKbPIsJV.jpg" alt="Avengers">
-  <h3>Avengers</h3>
-  <p>2012 - Action, Science-fiction</p>
-</div>
-
-<div class="movie">
-  <img src="https://image.tmdb.org/t/p/w500/bptfVGEQuv6vDTIMVCHjJ9Dz8PX.jpg" alt="Joker">
-  <h3>Joker</h3>
-  <p>2019 - Drame, Thriller</p>
-</div>
-
-<div class="movie">
-  <img src="https://image.tmdb.org/t/p/w500/dRZpdpKLgN9nk57zggJCs1TjJb4.jpg" alt="Parasite">
-  <h3>Parasite</h3>
-  <p>2019 - Thriller, Drame</p>
-</div>
-
-<div class="movie">
-  <img src="https://image.tmdb.org/t/p/w500/2CAL2433ZeIihfX1Hb2139CX0pW.jpg" alt="La La Land">
-  <h3>La La Land</h3>
-  <p>2016 - Romance, Musical</p>
-</div>
-
-<div class="movie">
-  <img src="https://image.tmdb.org/t/p/w500/askg3SMvhqEl4OL52YuvdtY40Yb.jpg" alt="Encanto">
-  <h3>Encanto</h3>
-  <p>2021 - Animation, Famille</p>
-</div>
-
-<div class="movie">
-  <img src="https://image.tmdb.org/t/p/w500/fOy2Jurz9k6RnJnMUMRDAgBwru2.jpg" alt="Les Minions 2">
-  <h3>Les Minions 2</h3>
-  <p>2022 - Animation, Comédie</p>
-</div>
 
       <div class="movie">
-  <a href="https://uqload.net/sti2x8bxjfxa.html" target="_blank">
-    <img src="https://m70.uqload.net/i/03/08281/k2koSaruny9s_t.jpg" alt="Paul (2010)" />
-    <h3>Paul (2010) – Version française</h3>
-  </a>
-  <p>2010 - Comédie, Science-fiction</p>
-</div><div class="movie">
-  <a href="https://uqload.net/st1z8xbjxfa.html" target="_blank">
-    <img src="https://m70.upload.net/i/03/08281/k2koSaruny9s_t.jpg" alt="Paul (2010)" />
-    <h3>Paul (2010) – Version française</h3>
-    <p>2010 - Comédie, Science-fiction</p>
-  </a>
-</div>
+        <a href="https://www.youtube.com/watch?v=xU47nhruN-Q" target="_blank">
+          <img src="https://image.tmdb.org/t/p/w500/q719jXXEzOoYaps6babgKnONONX.jpg" alt="Le Voyage de Chihiro">
+          <h3>Le Voyage de Chihiro</h3>
+          <p>2001 - Animation</p>
+        </a>
+      </div>
 
-
+      <div class="movie">
+        <a href="https://uqload.net/st1z8xbjxfa.html" target="_blank">
+          <img src="https://m70.upload.net/i/03/08281/k2koSaruny9s_t.jpg" alt="Paul (2010)">
+          <h3>Paul (2010) – VF</h3>
+          <p>2010 - Comédie, Science-fiction</p>
+        </a>
+      </div>
     </div>
   </div>
 
   <script>
-    // Fonction de filtrage des films
     function filterMovies() {
-      const input = document.getElementById("searchInput").value.toLowerCase();
-      const movies = document.getElementById("movieList").getElementsByClassName("movie");
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const movies = document.getElementById('movieList').getElementsByClassName('movie');
 
       Array.from(movies).forEach(movie => {
-        const title = movie.querySelector("h3").textContent.toLowerCase();
-        movie.style.display = title.includes(input) ? "block" : "none";
+        const title = movie.querySelector('h3').textContent.toLowerCase();
+        movie.style.display = title.includes(input) ? 'block' : 'none';
       });
     }
   </script>
+
 </body>
 </html>
 
