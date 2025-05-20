@@ -108,6 +108,92 @@
     </script>
 
 
+</body><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter un Film</title>
+</head>
+<body>
+    <h1>Ajouter un Film</h1>
+
+    <!-- Formulaire d'ajout de film -->
+    <form id="addFilmForm">
+        <input type="text" id="title" placeholder="Titre" required>
+        <input type="number" id="year" placeholder="Année" required>
+        <input type="text" id="director" placeholder="Réalisateur" required>
+        <input type="text" id="description" placeholder="Description" required>
+        <input type="url" id="link" placeholder="Lien du film (ex: uqload.net)" required>
+        <input type="file" id="cover" accept="image/*" required> <!-- Nouveau champ pour la couverture -->
+        <button type="submit">Ajouter</button>
+    </form>
+
+    <h2>Films ajoutés</h2>
+    <div id="filmsList"></div> <!-- Liste des films -->
+
+    <!-- Le script pour ajouter des films -->
+    <script>
+        let films = JSON.parse(localStorage.getItem('films')) || []; // Récupère les films dans localStorage (ou un tableau vide si rien n'est trouvé)
+        let nextId = films.length > 0 ? Math.max(...films.map(f => f.id)) + 1 : 1; // Détermine l'ID du prochain film
+
+        const form = document.getElementById('addFilmForm');
+        const filmsList = document.getElementById('filmsList');
+
+        // Ajouter un film
+        form.addEventListener('submit', (e) => {
+            e.preventDefault(); // Empêche le rechargement de la page
+
+            const coverInput = document.getElementById('cover');
+            let coverUrl = '';
+
+            if (coverInput.files && coverInput.files[0]) {
+                // Si un fichier est téléchargé, on crée une URL temporaire pour l'image
+                coverUrl = URL.createObjectURL(coverInput.files[0]);
+            } else {
+                // Sinon, si l'utilisateur a entré une URL d'image
+                coverUrl = ''; // Ou tu peux laisser une URL par défaut ou demander à l'utilisateur
+            }
+
+            const newFilm = {
+                id: nextId++, // L'ID du film (automatique)
+                title: document.getElementById('title').value,
+                year: parseInt(document.getElementById('year').value),
+                director: document.getElementById('director').value,
+                description: document.getElementById('description').value,
+                link: document.getElementById('link').value, // Lien vers uqload.net
+                cover: coverUrl // L'URL de la couverture
+            };
+
+            films.push(newFilm); // Ajouter le film au tableau films
+            localStorage.setItem('films', JSON.stringify(films)); // Sauvegarder les films dans localStorage
+            afficherFilms(); // Actualiser l'affichage des films
+            form.reset(); // Réinitialiser le formulaire
+        });
+
+        // Afficher la liste des films
+        function afficherFilms() {
+            filmsList.innerHTML = ''; // Réinitialise la liste
+            films.forEach(film => {
+                filmsList.innerHTML += `
+                    <div class="movie">
+                        <h3>${film.title}</h3>
+                        <p><strong>Année :</strong> ${film.year}</p>
+                        <p><strong>Réalisateur :</strong> ${film.director}</p>
+                        <p><strong>Description :</strong> ${film.description}</p>
+                        ${film.cover ? `<img src="${film.cover}" alt="${film.title} Cover" width="150">` : ''}
+                        <a href="details.html?id=${film.id}"><button>Voir</button></a>
+                    </div>
+                `;
+            });
+        }
+
+        // Afficher les films lorsque la page se charge
+        afficherFilms();
+    </script>
+
 </body>
+</html>
+
 </html>
 
