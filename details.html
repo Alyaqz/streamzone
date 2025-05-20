@@ -96,37 +96,7 @@
 </head>
 <body>
 
-    <h1>Détails du Film</h1>
-
-    <div id="movieDetails" class="movie-details">
-        <!-- Les informations du film seront affichées ici -->
-    </div>
-
-    <script>
-        // Récupérer l'ID du film depuis l'URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const filmId = parseInt(urlParams.get('id'));
-
-        // Charger les films depuis localStorage
-        const films = JSON.parse(localStorage.getItem('films')) || [];
-
-        // Trouver le film correspondant à l'ID
-        const film = films.find(f => f.id === filmId);
-
-        if (film) {
-            // Afficher les détails du film
-            const movieDetailsDiv = document.getElementById('movieDetails');
-            movieDetailsDiv.innerHTML = `
-                <h3>${film.title}</h3>
-                <p><strong>Année :</strong> ${film.year}</p>
-                <p><strong>Réalisateur :</strong> ${film.director}</p>
-                <p><strong>Description :</strong> ${film.description}</p>
-                <p><strong>Lien :</strong> <a href="${film.link}" target="_blank">Regarder le film</a></p>
-            `;
-        } else {
-            document.getElementById('movieDetails').innerHTML = "<p>Film introuvable.</p>";
-        }
-    </script>
+  
 
 </body>
 </html>
