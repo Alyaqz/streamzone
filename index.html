@@ -239,6 +239,15 @@
       document.body.classList.toggle('light-mode');
     });
   </script>
+<script>
+  function openDetails(title, genre, year, image) {
+    localStorage.setItem('movieTitle', title);
+    localStorage.setItem('movieGenre', genre);
+    localStorage.setItem('movieYear', year);
+    localStorage.setItem('movieImage', image);
+    window.location.href = 'details.html';
+  }
+</script>
 
 </body>
 </html>
