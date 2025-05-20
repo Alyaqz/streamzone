@@ -7,76 +7,56 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+
   <header>
-    <h1>🎬 Bienvenue sur StreamZone</h1>
-    <p>Ta plateforme de streaming préférée</p>
+    <h1>🎬 StreamZone</h1>
+    <p>Regarde les meilleurs films en streaming</p>
   </header>
 
-  <main>
-    <section class="hero">
-      <h2>Découvre les dernières sorties</h2>
-      <p>Films, séries, animés et plus encore, en illimité.</p>
-      <a href="#" class="btn">Commencer à regarder</a>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 StreamZone. Tous droits réservés.</p>
-  </footer>
-</body>
-</html>
-<section class="popular-movies">
-  <h2>Films Populaires</h2>
-  <div class="movie-grid">
-    <div class="movie-card">
-      <img src="https://image.tmdb.org/t/p/w300/xDMIl84Qo5Tsu62c9DGWhmPI67A.jpg" alt="Avatar 2">
-      <h3>Avatar 2</h3>
-      <p>Science-fiction • 2022</p>
-    </div>
-    <div class="movie-card">
-      <img src="https://image.tmdb.org/t/p/w300/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg" alt="John Wick 4">
-      <h3>John Wick 4</h3>
-      <p>Action • 2023</p>
-    </div>
-    <div class="movie-card">
-      <img src="https://image.tmdb.org/t/p/w300/qWQSnedj0LCUjWNp9fLcMtfgadp.jpg" alt="Spider-Man: Across the Spider-Verse">
-      <h3>Spider-Verse</h3>
-      <p>Animation • 2023</p>
-    </div>
-    <!-- Tu peux en ajouter plus ici -->
-  </div>
-</section>
-<body>
-  <header>...</header>
-
-  <!-- 🟡 Barre de recherche -->
+  <!-- Barre de recherche -->
   <section class="search-bar">
     <input type="text" id="searchInput" placeholder="Rechercher un film..." />
   </section>
 
-  <!-- 🟢 Section Films populaires -->
+  <!-- Section Films populaires -->
   <section class="popular-movies">
-    ...
+    <h2>Films Populaires</h2>
+    <div class="movie-grid">
+      <div class="movie-card">
+        <img src="https://image.tmdb.org/t/p/w300/xDMIl84Qo5Tsu62c9DGWhmPI67A.jpg" alt="Avatar 2">
+        <h3>Avatar 2</h3>
+        <p>Science-fiction • 2022</p>
+      </div>
+      <div class="movie-card">
+        <img src="https://image.tmdb.org/t/p/w300/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg" alt="John Wick 4">
+        <h3>John Wick 4</h3>
+        <p>Action • 2023</p>
+      </div>
+      <div class="movie-card">
+        <img src="https://image.tmdb.org/t/p/w300/qWQSnedj0LCUjWNp9fLcMtfgadp.jpg" alt="Spider-Verse">
+        <h3>Spider-Verse</h3>
+        <p>Animation • 2023</p>
+      </div>
+    </div>
   </section>
 
-  <!-- 🔵 Script JavaScript (voir ci-dessous) -->
-</body>
-<script>
-  const searchInput = document.getElementById('searchInput');
-  const movieCards = document.querySelectorAll('.movie-card');
+  <!-- JavaScript pour la recherche -->
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const movieCards = document.querySelectorAll('.movie-card');
 
-  searchInput.addEventListener('input', function () {
-    const searchTerm = this.value.toLowerCase();
-
-    movieCards.forEach(card => {
-      const title = card.querySelector('h3').textContent.toLowerCase();
-      if (title.includes(searchTerm)) {
-        card.style.display = 'block';
-      } else {
-        card.style.display = 'none';
-      }
+    searchInput.addEventListener('input', function () {
+      const searchTerm = this.value.toLowerCase();
+      movieCards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        if (title.includes(searchTerm)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
     });
-  });
-</script>
+  </script>
+
 </body>
 </html>
