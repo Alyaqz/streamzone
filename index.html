@@ -4,7 +4,129 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>StreamZone</title>
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    :root {
+      --bg: #000;
+      --text: #fff;
+      --card: #222;
+      --accent: #e50914;
+    }
+
+    body.light-mode {
+      --bg: #f4f4f4;
+      --text: #111;
+      --card: #fff;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(45deg, #111, #000);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+
+    .search-bar,
+    .controls {
+      text-align: center;
+      padding: 20px;
+      background-color: #111;
+    }
+
+    .search-bar input,
+    .controls select,
+    .toggle-mode {
+      padding: 10px;
+      margin: 10px;
+      border-radius: 8px;
+      font-size: 1em;
+      border: none;
+    }
+
+    .toggle-mode {
+      background-color: var(--accent);
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .toggle-mode:hover {
+      background-color: #b00710;
+    }
+
+    .popular-movies {
+      padding: 40px 20px;
+    }
+
+    .popular-movies h2 {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 30px;
+    }
+
+    .movie-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .movie-card {
+      background-color: var(--card);
+      border-radius: 12px;
+      overflow: hidden;
+      text-align: center;
+      transition: transform 0.3s ease;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .movie-card:hover {
+      transform: scale(1.05);
+    }
+
+    .movie-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .movie-card h3 {
+      margin: 10px 0 5px;
+      font-size: 1.1em;
+    }
+
+    .movie-card p {
+      margin: 0 0 10px;
+      font-size: 0.9em;
+      color: #aaa;
+    }
+
+    .movie-card button {
+      margin-bottom: 10px;
+      padding: 8px 16px;
+      border: none;
+      background-color: var(--accent);
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .movie-card button:hover {
+      background-color: #b00710;
+    }
+  </style>
 </head>
 <body>
 
@@ -18,45 +140,106 @@
     <input type="text" id="searchInput" placeholder="Rechercher un film..." />
   </section>
 
+  <!-- Contrôles -->
+  <section class="controls">
+    <select id="genreFilter">
+      <option value="all">Tous les genres</option>
+      <option value="Action">Action</option>
+      <option value="Science-fiction">Science-fiction</option>
+      <option value="Comédie">Comédie</option>
+      <option value="Animation">Animation</option>
+      <option value="Aventure">Aventure</option>
+    </select>
+
+    <select id="yearFilter">
+      <option value="all">Toutes les années</option>
+      <option value="2023">2023</option>
+      <option value="2022">2022</option>
+      <option value="2021">2021</option>
+    </select>
+
+    <button class="toggle-mode" id="modeToggle">🌓 Mode Clair / Sombre</button>
+  </section>
+
   <!-- Section Films populaires -->
   <section class="popular-movies">
     <h2>Films Populaires</h2>
-    <div class="movie-grid">
-      <div class="movie-card">
+    <div class="movie-grid" id="movieGrid">
+      <!-- Cartes de films -->
+      <div class="movie-card" data-genre="Science-fiction" data-year="2022">
         <img src="https://image.tmdb.org/t/p/w300/xDMIl84Qo5Tsu62c9DGWhmPI67A.jpg" alt="Avatar 2">
         <h3>Avatar 2</h3>
         <p>Science-fiction • 2022</p>
+        <button>Voir</button>
       </div>
-      <div class="movie-card">
+      <div class="movie-card" data-genre="Action" data-year="2023">
         <img src="https://image.tmdb.org/t/p/w300/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg" alt="John Wick 4">
         <h3>John Wick 4</h3>
         <p>Action • 2023</p>
+        <button>Voir</button>
       </div>
-      <div class="movie-card">
+      <div class="movie-card" data-genre="Animation" data-year="2023">
         <img src="https://image.tmdb.org/t/p/w300/qWQSnedj0LCUjWNp9fLcMtfgadp.jpg" alt="Spider-Verse">
         <h3>Spider-Verse</h3>
         <p>Animation • 2023</p>
+        <button>Voir</button>
+      </div>
+      <div class="movie-card" data-genre="Comédie" data-year="2022">
+        <img src="https://image.tmdb.org/t/p/w300/tPyj6Gii1HrnzCbJXEF7JdSFkQ8.jpg" alt="The Lost City">
+        <h3>The Lost City</h3>
+        <p>Comédie • 2022</p>
+        <button>Voir</button>
+      </div>
+      <div class="movie-card" data-genre="Aventure" data-year="2023">
+        <img src="https://image.tmdb.org/t/p/w300/2uAiT3C7OebjGjC7s4R4CMAI9TA.jpg" alt="The Flash">
+        <h3>The Flash</h3>
+        <p>Aventure • 2023</p>
+        <button>Voir</button>
+      </div>
+      <div class="movie-card" data-genre="Action" data-year="2021">
+        <img src="https://image.tmdb.org/t/p/w300/hkxxMIGaiCTmrEArK7J56JTKUlB.jpg" alt="Dune">
+        <h3>Dune</h3>
+        <p>Science-fiction • 2021</p>
+        <button>Voir</button>
       </div>
     </div>
   </section>
 
-  <!-- JavaScript pour la recherche -->
+  <!-- Script JS -->
   <script>
     const searchInput = document.getElementById('searchInput');
-    const movieCards = document.querySelectorAll('.movie-card');
+    const genreFilter = document.getElementById('genreFilter');
+    const yearFilter = document.getElementById('yearFilter');
+    const cards = document.querySelectorAll('.movie-card');
+    const modeToggle = document.getElementById('modeToggle');
 
-    searchInput.addEventListener('input', function () {
-      const searchTerm = this.value.toLowerCase();
-      movieCards.forEach(card => {
+    function filterMovies() {
+      const search = searchInput.value.toLowerCase();
+      const genre = genreFilter.value;
+      const year = yearFilter.value;
+
+      cards.forEach(card => {
         const title = card.querySelector('h3').textContent.toLowerCase();
-        if (title.includes(searchTerm)) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
+        const cardGenre = card.dataset.genre;
+        const cardYear = card.dataset.year;
+
+        const matchSearch = title.includes(search);
+        const matchGenre = genre === "all" || genre === cardGenre;
+        const matchYear = year === "all" || year === cardYear;
+
+        card.style.display = (matchSearch && matchGenre && matchYear) ? "block" : "none";
       });
+    }
+
+    searchInput.addEventListener('input', filterMovies);
+    genreFilter.addEventListener('change', filterMovies);
+    yearFilter.addEventListener('change', filterMovies);
+
+    modeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light-mode');
     });
   </script>
 
 </body>
 </html>
+
