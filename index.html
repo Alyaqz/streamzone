@@ -7,63 +7,75 @@
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      /* Dégradé élégant en fond */
-      background: linear-gradient(135deg, #1f1c2c, #928DAB);
+      background: linear-gradient(135deg, #3b8d99, #6b6b6b); /* Fond dégradé */
       color: #fff;
-      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
 
-    .overlay {
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 20px;
-      min-height: 100vh;
+    .container {
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 30px;
+      border-radius: 15px;
+      width: 80%;
+      max-width: 1200px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
 
     header {
       text-align: center;
-      padding: 30px 20px 10px;
+      margin-bottom: 30px;
     }
 
     header h1 {
-      margin: 0;
       font-size: 3rem;
       color: #ff4747;
+      letter-spacing: 2px;
     }
 
     .search-box {
       display: flex;
       justify-content: center;
-      margin: 20px;
+      margin-bottom: 20px;
     }
 
     .search-box input {
-      padding: 10px;
-      font-size: 1rem;
+      padding: 12px;
+      font-size: 1.1rem;
       width: 50%;
-      border-radius: 8px;
+      border-radius: 30px;
       border: none;
+      margin-right: 10px;
+      outline: none;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .search-box input:focus {
+      background-color: #fff;
+      color: #333;
     }
 
     .movies {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 20px;
     }
 
     .movie {
-      background-color: rgba(255, 255, 255, 0.08);
+      background-color: rgba(255, 255, 255, 0.1);
       border-radius: 10px;
       overflow: hidden;
-      width: 200px;
-      text-align: center;
-      padding-bottom: 10px;
-      transition: transform 0.3s;
+      transition: transform 0.3s ease-in-out;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     }
 
     .movie:hover {
@@ -73,27 +85,42 @@
     .movie img {
       width: 100%;
       height: auto;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .movie:hover img {
+      opacity: 0.8;
     }
 
     .movie h3 {
-      margin: 10px 0 5px;
+      padding: 10px;
+      font-size: 1.2rem;
+      color: #ff4747;
     }
 
     .movie p {
-      font-size: 0.9rem;
+      padding: 0 10px 10px;
+      font-size: 1rem;
+      color: #fff;
+    }
+
+    .movie img {
+      transition: transform 0.3s ease;
     }
   </style>
 </head>
 <body>
-  <div class="overlay">
+  <div class="container">
     <header>
       <h1>🎬 StreamZone</h1>
     </header>
 
+    <!-- Barre de recherche -->
     <div class="search-box">
       <input type="text" id="searchInput" placeholder="Rechercher un film ou une série..." onkeyup="filterMovies()">
     </div>
 
+    <!-- Liste des films -->
     <div class="movies" id="movieList">
       <div class="movie">
         <img src="https://image.tmdb.org/t/p/w500/9O7gLzmreU0nGkIB6K3BsJbzvNv.jpg" alt="Fight Club">
@@ -110,10 +137,12 @@
         <h3>Le Voyage de Chihiro</h3>
         <p>2001 - Animation</p>
       </div>
+      <!-- Ajoute plus de films ici -->
     </div>
   </div>
 
   <script>
+    // Fonction de filtrage des films
     function filterMovies() {
       const input = document.getElementById("searchInput").value.toLowerCase();
       const movies = document.getElementById("movieList").getElementsByClassName("movie");
