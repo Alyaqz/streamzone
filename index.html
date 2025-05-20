@@ -1,437 +1,130 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StreamZone</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ma Bibliothèque de Films</title>
   <style>
-    :root {
-      --bg: #000;
-      --text: #fff;
-      --card: #222;
-      --accent: #e50914;
-    }
-
-    body.light-mode {
-      --bg: #f4f4f4;
-      --text: #111;
-      --card: #fff;
+    * {
+      box-sizing: border-box;
     }
 
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      transition: background 0.3s, color 0.3s;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://wallpaperaccess.com/full/317501.jpg') no-repeat center center fixed;
+      background-size: cover;
+      backdrop-filter: blur(4px);
+      color: #fff;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      min-height: 100vh;
     }
 
     header {
       text-align: center;
-      padding: 40px 20px;
-      background: linear-gradient(45deg, #111, #000);
+      padding: 30px 20px 10px;
     }
 
     header h1 {
       margin: 0;
-      font-size: 2.5em;
+      font-size: 3rem;
+      color: #ffd700;
     }
 
-    .search-bar,
-    .controls {
-      text-align: center;
-      padding: 20px;
-      background-color: #111;
+    .search-box {
+      display: flex;
+      justify-content: center;
+      margin: 20px;
     }
 
-    .search-bar input,
-    .controls select,
-    .toggle-mode {
+    .search-box input {
       padding: 10px;
-      margin: 10px;
+      font-size: 1rem;
+      width: 50%;
       border-radius: 8px;
-      font-size: 1em;
       border: none;
     }
 
-    .toggle-mode {
-      background-color: var(--accent);
-      color: white;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .toggle-mode:hover {
-      background-color: #b00710;
-    }
-
-    .popular-movies {
-      padding: 40px 20px;
-    }
-
-    .popular-movies h2 {
-      text-align: center;
-      font-size: 2em;
-      margin-bottom: 30px;
-    }
-
-    .movie-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    .movies {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 20px;
-      max-width: 1000px;
-      margin: 0 auto;
     }
 
-    .movie-card {
-      background-color: var(--card);
-      border-radius: 12px;
+    .movie {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
       overflow: hidden;
+      width: 200px;
       text-align: center;
-      transition: transform 0.3s ease;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      padding-bottom: 10px;
+      transition: transform 0.3s;
     }
 
-    .movie-card:hover {
+    .movie:hover {
       transform: scale(1.05);
     }
 
-    .movie-card img {
+    .movie img {
       width: 100%;
       height: auto;
-      display: block;
     }
 
-    .movie-card h3 {
+    .movie h3 {
       margin: 10px 0 5px;
-      font-size: 1.1em;
     }
 
-    .movie-card p {
-      margin: 0 0 10px;
-      font-size: 0.9em;
-      color: #aaa;
-    }
-
-    .movie-card button {
-      margin-bottom: 10px;
-      padding: 8px 16px;
-      border: none;
-      background-color: var(--accent);
-      color: white;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .movie-card button:hover {
-      background-color: #b00710;
+    .movie p {
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
+  <div class="overlay">
+    <header>
+      <h1>🎬 Ma Bibliothèque de Films</h1>
+    </header>
 
-  <header>
-    <h1>🎬 StreamZone</h1>
-    <p>Regarde les meilleurs films en streaming</p>
-  </header>
-
-  <!-- Barre de recherche -->
-  <section class="search-bar">
-    <input type="text" id="searchInput" placeholder="Rechercher un film..." />
-  </section>
-
-  <!-- Contrôles -->
-  <section class="controls">
-    <select id="genreFilter">
-      <option value="all">Tous les genres</option>
-      <option value="Action">Action</option>
-      <option value="Science-fiction">Science-fiction</option>
-      <option value="Comédie">Comédie</option>
-      <option value="Animation">Animation</option>
-      <option value="Aventure">Aventure</option>
-    </select>
-
-    <select id="yearFilter">
-      <option value="all">Toutes les années</option>
-      <option value="2023">2023</option>
-      <option value="2022">2022</option>
-      <option value="2021">2021</option>
-    </select>
-
-    <button class="toggle-mode" id="modeToggle">🌓 Mode Clair / Sombre</button>
-  </section>
-
-  <!-- Section Films populaires -->
-  <section class="popular-movies">
-    <h2>Films Populaires</h2>
-    <div class="movie-grid" id="movieGrid">
-      <!-- Cartes de films -->
-      <div class="movie-card" data-genre="Science-fiction" data-year="2022">
-        <img src="https://image.tmdb.org/t/p/w300/xDMIl84Qo5Tsu62c9DGWhmPI67A.jpg" alt="Avatar 2">
-        <h3>Avatar 2</h3>
-        <p>Science-fiction • 2022</p>
-        <button>Voir</button>
-      </div>
-      <div class="movie-card" data-genre="Action" data-year="2023">
-        <img src="https://image.tmdb.org/t/p/w300/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg" alt="John Wick 4">
-        <h3>John Wick 4</h3>
-        <p>Action • 2023</p>
-        <button>Voir</button>
-      </div>
-      <div class="movie-card" data-genre="Animation" data-year="2023">
-        <img src="https://image.tmdb.org/t/p/w300/qWQSnedj0LCUjWNp9fLcMtfgadp.jpg" alt="Spider-Verse">
-        <h3>Spider-Verse</h3>
-        <p>Animation • 2023</p>
-        <button>Voir</button>
-      </div>
-      <div class="movie-card" data-genre="Comédie" data-year="2022">
-        <img src="https://image.tmdb.org/t/p/w300/tPyj6Gii1HrnzCbJXEF7JdSFkQ8.jpg" alt="The Lost City">
-        <h3>The Lost City</h3>
-        <p>Comédie • 2022</p>
-        <button>Voir</button>
-      </div>
-      <div class="movie-card" data-genre="Aventure" data-year="2023">
-        <img src="https://image.tmdb.org/t/p/w300/2uAiT3C7OebjGjC7s4R4CMAI9TA.jpg" alt="The Flash">
-        <h3>The Flash</h3>
-        <p>Aventure • 2023</p>
-        <button>Voir</button>
-      </div>
-      <div class="movie-card" data-genre="Action" data-year="2021">
-        <img src="https://image.tmdb.org/t/p/w300/hkxxMIGaiCTmrEArK7J56JTKUlB.jpg" alt="Dune">
-        <h3>Dune</h3>
-        <p>Science-fiction • 2021</p>
-        <button>Voir</button>
-      </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Rechercher un film..." onkeyup="filterMovies()">
     </div>
-  </section>
 
-  <!-- Script JS -->
+    <div class="movies" id="movieList">
+      <div class="movie">
+        <img src="https://image.tmdb.org/t/p/w500/9O7gLzmreU0nGkIB6K3BsJbzvNv.jpg" alt="Fight Club">
+        <h3>Fight Club</h3>
+        <p>1999 - Drame</p>
+      </div>
+      <div class="movie">
+        <img src="https://image.tmdb.org/t/p/w500/5KCVkau1HEl7ZzfPsKAPM0sMiKc.jpg" alt="Interstellar">
+        <h3>Interstellar</h3>
+        <p>2014 - Science-fiction</p>
+      </div>
+      <div class="movie">
+        <img src="https://image.tmdb.org/t/p/w500/q719jXXEzOoYaps6babgKnONONX.jpg" alt="Le Voyage de Chihiro">
+        <h3>Le Voyage de Chihiro</h3>
+        <p>2001 - Animation</p>
+      </div>
+      <!-- Tu peux en ajouter d'autres ici -->
+    </div>
+  </div>
+
   <script>
-    const searchInput = document.getElementById('searchInput');
-    const genreFilter = document.getElementById('genreFilter');
-    const yearFilter = document.getElementById('yearFilter');
-    const cards = document.querySelectorAll('.movie-card');
-    const modeToggle = document.getElementById('modeToggle');
-
     function filterMovies() {
-      const search = searchInput.value.toLowerCase();
-      const genre = genreFilter.value;
-      const year = yearFilter.value;
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const movies = document.getElementById("movieList").getElementsByClassName("movie");
 
-      cards.forEach(card => {
-        const title = card.querySelector('h3').textContent.toLowerCase();
-        const cardGenre = card.dataset.genre;
-        const cardYear = card.dataset.year;
-
-        const matchSearch = title.includes(search);
-        const matchGenre = genre === "all" || genre === cardGenre;
-        const matchYear = year === "all" || year === cardYear;
-
-        card.style.display = (matchSearch && matchGenre && matchYear) ? "block" : "none";
+      Array.from(movies).forEach(movie => {
+        const title = movie.querySelector("h3").textContent.toLowerCase();
+        movie.style.display = title.includes(input) ? "block" : "none";
       });
     }
-
-    searchInput.addEventListener('input', filterMovies);
-    genreFilter.addEventListener('change', filterMovies);
-    yearFilter.addEventListener('change', filterMovies);
-
-    modeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('light-mode');
-    });
   </script>
-<script>
-  function openDetails(title, genre, year, image) {
-    localStorage.setItem('movieTitle', title);
-    localStorage.setItem('movieGenre', genre);
-    localStorage.setItem('movieYear', year);
-    localStorage.setItem('movieImage', image);
-    window.location.href = 'details.html';
-  }
-</script>
-<button onclick="openDetails('Avatar 2', 'Science-fiction', '2022', 'https://image.tmdb.org/t/p/w300/xDMIl84Qo5Tsu62c9DGWhmPI67A.jpg')">
-  Voir
-</button>
-<a href="details.html"><button>Voir</button></a>
-
-</body>
-  <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamZone</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .movie {
-            background-color: white;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        button {
-            padding: 8px 12px;
-            border: none;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        form input {
-            padding: 8px;
-            margin: 5px 0;
-            width: 200px;
-        }
-        form button {
-            padding: 10px 15px;
-            background-color: #008CBA;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        form button:hover {
-            background-color: #007B9E;
-        }
-    </style>
-</head>
-<body>
-
-    <h1>StreamZone - Liste des films</h1>
-
-    <!-- Formulaire d'ajout de film -->
-    <h2>Ajouter un film</h2>
-    <form id="addFilmForm">
-        <input type="text" id="title" placeholder="Titre" required>
-        <input type="number" id="year" placeholder="Année" required>
-        <input type="text" id="director" placeholder="Réalisateur" required>
-        <input type="text" id="description" placeholder="Description" required>
-        <button type="submit">Ajouter</button>
-    </form>
-
-    <hr>
-
-    <h2>Films</h2>
-    <div id="filmsList"></div>
-
-    <script>
-        // Chargement des films depuis localStorage
-        let films = JSON.parse(localStorage.getItem('films')) || [];
-        let nextId = films.length > 0 ? Math.max(...films.map(f => f.id)) + 1 : 1;
-
-        const form = document.getElementById('addFilmForm');
-        const filmsList = document.getElementById('filmsList');
-
-        // Ajouter un film
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const newFilm = {
-                id: nextId++,
-                title: document.getElementById('title').value,
-                year: parseInt(document.getElementById('year').value),
-                director: document.getElementById('director').value,
-                description: document.getElementById('description').value
-            };
-
-            films.push(newFilm);
-            localStorage.setItem('films', JSON.stringify(films)); // Sauvegarde dans localStorage
-            afficherFilms();
-            form.reset(); // Réinitialiser le formulaire
-        });
-
-        // Afficher la liste des films
-        function afficherFilms() {
-            filmsList.innerHTML = '';
-            films.forEach(film => {
-                filmsList.innerHTML += `
-                    <div class="movie">
-                        <h3>${film.title}</h3>
-                        <p><strong>Année :</strong> ${film.year}</p>
-                        <p><strong>Réalisateur :</strong> ${film.director}</p>
-                        <p><strong>Description :</strong> ${film.description}</p>
-                        <a href="details.html?id=${<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Détails du Film</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .movie-details {
-            background-color: white;
-            padding: 20px;
-            margin: 10px 0;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .movie-details h3 {
-            margin-top: 0;
-        }
-        .movie-details a {
-            color: #007B9E;
-            text-decoration: none;
-        }
-    </style>
-</head>
-<body>
-
-    <h1>Détails du Film</h1>
-
-    <div id="movieDetails" class="movie-details">
-        <!-- Les informations du film seront affichées ici -->
-    </div>
-
-    <script>
-        // Récupérer l'ID du film depuis l'URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const filmId = parseInt(urlParams.get('id'));
-
-        // Charger les films depuis localStorage
-        const films = JSON.parse(localStorage.getItem('films')) || [];
-
-        // Trouver le film correspondant à l'ID
-        const film = films.find(f => f.id === filmId);
-
-        if (film) {
-            // Afficher les détails du film
-            const movieDetailsDiv = document.getElementById('movieDetails');
-            movieDetailsDiv.innerHTML = `
-                <h3>${film.title}</h3>
-                <p><strong>Année :</strong> ${film.year}</p>
-                <p><strong>Réalisateur :</strong> ${film.director}</p>
-                <p><strong>Description :</strong> ${film.description}</p>
-                <p><strong>Lien :</strong> <a href="${film.link}" target="_blank">Regarder le film</a></p>
-            `;
-        } else {
-            document.getElementById('movieDetails').innerHTML = "<p>Film introuvable.</p>";
-        }
-    </script>
-
 </body>
 </html>
-.id}"><button>Voir</button></a>
-                    </div>
-                `;
-            });
-        }
-
-        // Appeler la fonction pour afficher les films à chaque chargement
-        afficherFilms();
-    </script>
-
-</body>
-</html>
-
-</html>
-<a href="details.html?id=1"><button>Voir</button></a>
 
