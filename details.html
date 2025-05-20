@@ -61,7 +61,52 @@
         } else {
             document.getElementById('movieDetails').innerHTML = "<p>Film introuvable.</p>";
         }
+    </script>    <script>
+        let films = JSON.parse(localStorage.getItem('films')) || []; // Récupère les films dans localStorage (ou un tableau vide si rien n'est trouvé)
+        let nextId = films.length > 0 ? Math.max(...films.map(f => f.id)) + 1 : 1; // Détermine l'ID du prochain film
+
+        const form = document.getElementById('addFilmForm');
+        const filmsList = document.getElementById('filmsList');
+
+        // Ajouter un film
+        form.addEventListener('submit', (e) => {
+            e.preventDefault(); // Empêche le rechargement de la page
+
+            const newFilm = {
+                id: nextId++, // L'ID du film (automatique)
+                title: document.getElementById('title').value,
+                year: parseInt(document.getElementById('year').value),
+                director: document.getElementById('director').value,
+                description: document.getElementById('description').value,
+                link: document.getElementById('link').value // Lien vers uqload.net
+            };
+
+            films.push(newFilm); // Ajouter le film au tableau films
+            localStorage.setItem('films', JSON.stringify(films)); // Sauvegarder les films dans localStorage
+            afficherFilms(); // Actualiser l'affichage des films
+            form.reset(); // Réinitialiser le formulaire
+        });
+
+        // Afficher la liste des films
+        function afficherFilms() {
+            filmsList.innerHTML = ''; // Réinitialise la liste
+            films.forEach(film => {
+                filmsList.innerHTML += `
+                    <div class="movie">
+                        <h3>${film.title}</h3>
+                        <p><strong>Année :</strong> ${film.year}</p>
+                        <p><strong>Réalisateur :</strong> ${film.director}</p>
+                        <p><strong>Description :</strong> ${film.description}</p>
+                        <a href="details.html?id=${film.id}"><button>Voir</button></a>
+                    </div>
+                `;
+            });
+        }
+
+        // Afficher les films lorsque la page se charge
+        afficherFilms();
     </script>
+
 
 </body>
 </html>
