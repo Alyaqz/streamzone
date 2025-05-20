@@ -355,7 +355,71 @@
                         <p><strong>Année :</strong> ${film.year}</p>
                         <p><strong>Réalisateur :</strong> ${film.director}</p>
                         <p><strong>Description :</strong> ${film.description}</p>
-                        <a href="details.html?id=${film.id}"><button>Voir</button></a>
+                        <a href="details.html?id=${<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails du Film</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .movie-details {
+            background-color: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .movie-details h3 {
+            margin-top: 0;
+        }
+        .movie-details a {
+            color: #007B9E;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Détails du Film</h1>
+
+    <div id="movieDetails" class="movie-details">
+        <!-- Les informations du film seront affichées ici -->
+    </div>
+
+    <script>
+        // Récupérer l'ID du film depuis l'URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const filmId = parseInt(urlParams.get('id'));
+
+        // Charger les films depuis localStorage
+        const films = JSON.parse(localStorage.getItem('films')) || [];
+
+        // Trouver le film correspondant à l'ID
+        const film = films.find(f => f.id === filmId);
+
+        if (film) {
+            // Afficher les détails du film
+            const movieDetailsDiv = document.getElementById('movieDetails');
+            movieDetailsDiv.innerHTML = `
+                <h3>${film.title}</h3>
+                <p><strong>Année :</strong> ${film.year}</p>
+                <p><strong>Réalisateur :</strong> ${film.director}</p>
+                <p><strong>Description :</strong> ${film.description}</p>
+                <p><strong>Lien :</strong> <a href="${film.link}" target="_blank">Regarder le film</a></p>
+            `;
+        } else {
+            document.getElementById('movieDetails').innerHTML = "<p>Film introuvable.</p>";
+        }
+    </script>
+
+</body>
+</html>
+.id}"><button>Voir</button></a>
                     </div>
                 `;
             });
